@@ -3,28 +3,86 @@
 Este é o código-fonte legível do app "Controle de Viagens" (L. L. Campos Transportes).
 O arquivo que roda de verdade no GitHub Pages (`index.html`) é gerado **a partir destes
 arquivos**, empacotado (minificado) num único `.html`. Este README explica como tudo
-se encaixa, caso você (ou outro desenvolvedor) precise mexer no código no futuro.
+se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
+com o Claude caso esta aqui não possa mais continuar.
+
+**Versão atual:** v2026.07.05-2
 
 ## Arquivos deste pacote
 
 | Arquivo                  | O que é                                                             |
 |---------------------------|----------------------------------------------------------------------|
 | `entry-sheets.jsx`         | Ponto de entrada. Só monta o app React na página.                   |
-| `app-sheets-source.jsx`    | **O código de verdade.** Todos os componentes, telas, cálculos e a integração com o Google Sheets estão neste único arquivo (é grande, mas é tudo que existe). |
+| `app-sheets-source.jsx`    | **O código de verdade.** Todos os componentes, telas, cálculos e a integração com o Google Sheets estão neste único arquivo. |
 | `README.md`                | Este arquivo.                                                       |
 
 Não existe CSS separado — todo o estilo visual está embutido dentro do próprio
-`app-sheets-source.jsx`, usando o estilo nativo do React (`style={{...}}`), mais um
-pequeno bloco `<style>` (dentro do próprio JSX) que importa as fontes do Google e
-define a regra de impressão dos relatórios em PDF.
+`app-sheets-source.jsx`, usando o estilo nativo do React (`style={{...}}`).
+
+## Como retomar isso numa conversa nova com o Claude
+
+Se por qualquer motivo esta conversa não puder continuar, abra uma conversa nova e
+mande pro Claude os três arquivos deste pacote (`app-sheets-source.jsx`,
+`entry-sheets.jsx`, `README.md`) junto com uma mensagem tipo: *"Esse é um app de
+controle de viagens de transportadora que já está em produção. Aqui está o
+código-fonte atual — preciso que você continue evoluindo a partir daqui, sem
+recomeçar do zero."* O Claude deve ler o código, entender a estrutura (ela é
+bem repetitiva — cada "módulo" novo, tipo Seguro ou Troca de Óleo, segue o mesmo
+padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
+
+## O que o app faz hoje (visão geral por aba)
+
+- **🚚 Viagens** — cadastro de caminhões, lançamento de viagens (origem/destino, km,
+  contrato, adiantamento/saldo a receber, abastecimentos e gastos extras por viagem),
+  cálculo de comissão do motorista (13% sobre valor de comissão menos pedágio, com
+  opção de comissão prefixada pra rotas curtas, e desconto de "carregamento" quando
+  teve troca de motorista no meio da viagem), gestão de vales/reembolsos, fechamento
+  de saldo por motorista (com histórico e ferramenta de correção manual caso algo
+  entre errado num fechamento), relatório mensal por caminhão (receita, comissão,
+  abastecimento, despesas, líquido).
+- **🧾 Boletos** — lançamento de boletos avulsos ou vinculados a nota fiscal (com
+  ferramenta de dividir o valor total da nota em parcelas iguais, revisão antes de
+  salvar, e trava pra não deixar a soma passar do valor da nota), relatório com
+  filtro de período, empresa e status (pendente/vencido/pago).
+- **⛽ Abastecimentos** — relatório agrupado por posto, com litragem separada por
+  Diesel e Arla, valor por litro calculado automaticamente, e ferramenta de colar e
+  somar créditos copiados de extrato/PDF.
+- **🛢️ Troca de Óleo** — alerta automático quando um caminhão passa de 25.000km desde
+  a última troca (calculado a partir do km das viagens), com opção de marcar
+  caminhões cuja manutenção é feita pela fábrica (fica de fora do alerta). Tem também
+  uma seção separada de "Outros Serviços" (pneu, freio, suspensão etc.) que não entra
+  na conta da troca de óleo.
+- **🛣️ Sem Parar** — lançamento de pedágio por vencimento (pedágio − crédito, mais um
+  espaço pra "outras arrecadações" que não são por placa), com botão de confirmar que
+  gera um boleto e lança a despesa no relatório mensal automaticamente.
+- **🛡️ Seguro** — lançamento combinado de cavalo + carreta (valores separados, mas
+  contam juntos na placa do cavalo no relatório mensal), com vencimento fixo todo
+  dia 15 (antecipado pra sexta-feira anterior se cair em fim de semana), e confirmação
+  manual que gera o boleto e a despesa.
+
+### Outras funcionalidades transversais
+- Cadastro de motoristas e contas bancárias, com opção de adicionar novos direto nos
+  formulários ("+ nova placa...", "+ novo motorista...", "+ nova conta...").
+- Ferramenta de unificar motoristas com nome grafado de forma diferente (ex:
+  "TIAGO" vs "Tiago"), corrigindo viagens/vales/fechamentos antigos sem mexer em
+  valores.
+- Confirmação antes de excluir qualquer lançamento (vale, boleto, despesa, taxa etc).
+- Modo de acesso somente leitura: se a pessoa só tiver permissão de leitura na
+  planilha, o app mostra um aviso claro em vez de travar ou mostrar planilha "vazia".
+- Backup manual (baixar/importar um `.json` com tudo) e um botão "Salvar" pra forçar
+  salvar na hora, além do salvamento automático a cada ação.
+- Renovação automática do token do Google a cada 45 minutos (o token expira sozinho
+  depois de ~1h; sem isso, sessões longas paravam de salvar silenciosamente), e
+  tentativa automática de salvar de novo se uma gravação falhar.
+- Aviso ao tentar fechar a aba com alterações ainda não confirmadas na planilha.
 
 ## Dependências / bibliotecas usadas
 
-- **React 19** e **React DOM 19** — framework da interface.
+- **React 19** e **React DOM 19**.
 - **Google Identity Services** (`https://accounts.google.com/gsi/client`) — carregado
   por um `<script>` direto no HTML final, não é um pacote instalado. É o que faz o
   login com Google funcionar.
-- Nenhuma outra biblioteca externa (sem Tailwind, sem Bootstrap, sem banco de dados).
+- Nenhuma outra biblioteca externa.
 
 Não existe um `package.json` nem uma pasta `node_modules` neste pacote — o projeto
 não tem um "ambiente de projeto" tradicional configurado. Ele foi escrito e
@@ -32,10 +90,10 @@ empacotado manualmente.
 
 ## Como o `index.html` final é gerado
 
-O arquivo publicado no GitHub Pages é o resultado de "empacotar" (bundle) esses dois
-arquivos `.jsx` num único arquivo JavaScript, e depois colar esse resultado dentro de
-um HTML simples. Isso foi feito usando a ferramenta **esbuild**. Se um desenvolvedor
-precisar refazer esse processo no futuro, os passos são:
+O arquivo publicado no GitHub Pages é o resultado de "empacotar" (bundle) os dois
+arquivos `.jsx` num único arquivo JavaScript, usando **esbuild**, e depois colar esse
+resultado dentro de um HTML simples. Se um desenvolvedor precisar refazer esse
+processo no futuro, os passos são:
 
 1. Instalar o [Node.js](https://nodejs.org)
 2. Instalar as dependências:
@@ -75,33 +133,27 @@ precisar refazer esse processo no futuro, os passos são:
 
 ## Como o app se conecta com o Google Sheets
 
-Em poucas linhas:
-
 - O app usa o **Google Identity Services** pra pedir login (OAuth2) direto no
   navegador, sem precisar de servidor. O identificador do app nesse processo é o
   **Client ID**: `916443066549-qj84og3gajuru9734bgjgd207rfs3l6e.apps.googleusercontent.com`
   (não é secreto — é normal esse código aparecer no código-fonte de apps que rodam no navegador).
-- Depois de logada, a pessoa recebe um "token" temporário que autoriza o app a ler e
-  escrever numa planilha específica, usando a **Google Sheets API (v4)** diretamente
-  via `fetch` (sem biblioteca extra).
+- Depois de logada, a pessoa recebe um "token" temporário (válido por ~1h, renovado
+  automaticamente pelo app) que autoriza a leitura e escrita numa planilha específica,
+  usando a **Google Sheets API (v4)** diretamente via `fetch`.
 - A planilha usada é fixa no código, identificada pelo seu ID:
   `1-1H2_kpa624M7v7Sfs3e8F2488gjMrrJ1D898CTHa9U`.
-- Cada "tipo de dado" do app (caminhões, viagens, vales, boletos, empresas,
-  fechamentos, despesas do veículo, taxas, motoristas, contas bancárias) fica numa
-  **aba separada** dentro dessa planilha, com o mesmo nome (ex: aba "Boletos", aba
-  "Vales").
-- Quando você salva algo no app, ele reescreve a aba inteira correspondente
-  (apaga tudo e escreve de novo com os dados atualizados) — é simples e evita
-  inconsistência, mas significa que duas pessoas salvando ao mesmo tempo podem, em
-  teoria, sobrescrever uma a outra (é raro acontecer no uso normal, mas vale saber).
+- Cada "tipo de dado" do app fica numa **aba separada** dentro dessa planilha, com o
+  mesmo nome: `Caminhoes, Viagens, Vales, Boletos, Empresas, Fechamentos,
+  DespesasVeiculo, TaxasPool, Motoristas, Contas, TrocasOleo, ServicosVeiculo,
+  SemParar, Seguro, SemPararOutros`.
+- Quando algo é salvo, o app identifica **só a aba que realmente mudou** e reescreve
+  apenas ela (não a planilha toda) — isso foi uma correção importante feita depois de
+  um incidente em que uma gravação parcial deixou abas vazias.
 - Quem tem acesso aos dados é controlado pelo **compartilhamento da planilha no
-  Google Drive**, não pelo Client ID — é por isso que só você e seu esposo, com o
-  e-mail liberado como editor, conseguem usar.
+  Google Drive**, não pelo Client ID.
 
 ## Onde guardar isso no GitHub
 
-Sugestão: dentro do mesmo repositório `controle-viagens`, crie uma pasta nova
-chamada `source/` (ou `codigo-fonte/`) e coloque estes três arquivos lá dentro.
-O `index.html` publicado continua sozinho na raiz do repositório — o GitHub Pages
-só usa o que está na raiz, então a pasta `source/` fica só guardada, sem interferir
-em nada do que já funciona.
+Sugestão: dentro do mesmo repositório `controle-viagens`, uma pasta chamada
+`source/` com estes três arquivos. O `index.html` publicado continua sozinho na raiz
+do repositório — o GitHub Pages só usa o que está na raiz.
