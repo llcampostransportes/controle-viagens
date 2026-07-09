@@ -6,7 +6,7 @@ arquivos**, empacotado (minificado) num único `.html`. Este README explica como
 se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
 com o Claude caso esta aqui não possa mais continuar.
 
-**Versão atual:** v2026.07.05-2
+**Versão atual:** v2026.07.05-10
 
 ## Arquivos deste pacote
 
@@ -61,6 +61,21 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   manual que gera o boleto e a despesa.
 
 ### Outras funcionalidades transversais
+- **⚙️ Configurações**: porcentagem da comissão dos motoristas e km padrão de troca
+  de óleo ficam ajustáveis pela própria Laís (antes eram fixos no código). Cada
+  caminhão também pode ter seu próprio km de troca de óleo, diferente do padrão
+  (útil pra caminhões de marca diferente).
+- **Cavalo x Carreta**: placas de carreta (cadastradas pelo campo de carreta do
+  Seguro) ficam separadas das placas de cavalo — não aparecem em lançamento de
+  viagem, filtro de frota, abastecimento nem troca de óleo, que são coisas só de
+  cavalo.
+- **Categorias de empresa** (Boletos): cada empresa cadastrada tem uma categoria
+  (Caminhões, Despesas Operacionais, Financiamentos/Bancos e Cartões, Funcionários,
+  Administrativo, Outros), e a lista de empresas fica agrupada por categoria, com
+  cada grupo podendo abrir/fechar. Tem uma tela de "gerenciar empresas" pra
+  renomear (atualiza os boletos antigos junto) e trocar a categoria.
+- Nome de empresa sempre em **maiúscula**, automaticamente — tanto nas novas quanto
+  nas que já existiam (corrigido sozinho, sem duplicar nem alterar valores).
 - Cadastro de motoristas e contas bancárias, com opção de adicionar novos direto nos
   formulários ("+ nova placa...", "+ novo motorista...", "+ nova conta...").
 - Ferramenta de unificar motoristas com nome grafado de forma diferente (ex:
@@ -73,8 +88,12 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   salvar na hora, além do salvamento automático a cada ação.
 - Renovação automática do token do Google a cada 45 minutos (o token expira sozinho
   depois de ~1h; sem isso, sessões longas paravam de salvar silenciosamente), e
-  tentativa automática de salvar de novo se uma gravação falhar.
+  tentativa automática de salvar de novo se uma gravação falhar, com botão de
+  "Reconectar" pra quando a renovação silenciosa não funciona.
 - Aviso ao tentar fechar a aba com alterações ainda não confirmadas na planilha.
+- Relatórios em PDF com visual colorido (cabeçalho colorido, linhas listradas,
+  status em cores) — incluindo a correção pra forçar o navegador a realmente
+  imprimir essas cores (por padrão ele esconde cor de fundo na impressão).
 
 ## Dependências / bibliotecas usadas
 
@@ -145,7 +164,7 @@ processo no futuro, os passos são:
 - Cada "tipo de dado" do app fica numa **aba separada** dentro dessa planilha, com o
   mesmo nome: `Caminhoes, Viagens, Vales, Boletos, Empresas, Fechamentos,
   DespesasVeiculo, TaxasPool, Motoristas, Contas, TrocasOleo, ServicosVeiculo,
-  SemParar, Seguro, SemPararOutros`.
+  SemParar, Seguro, SemPararOutros, Config`.
 - Quando algo é salvo, o app identifica **só a aba que realmente mudou** e reescreve
   apenas ela (não a planilha toda) — isso foi uma correção importante feita depois de
   um incidente em que uma gravação parcial deixou abas vazias.
