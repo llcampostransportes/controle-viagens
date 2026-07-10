@@ -6,7 +6,7 @@ arquivos**, empacotado (minificado) num único `.html`. Este README explica como
 se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
 com o Claude caso esta aqui não possa mais continuar.
 
-**Versão atual:** v2026.07.05-10
+**Versão atual:** v2026.07.05-20
 
 ## Arquivos deste pacote
 
@@ -61,21 +61,31 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   manual que gera o boleto e a despesa.
 
 ### Outras funcionalidades transversais
-- **⚙️ Configurações**: porcentagem da comissão dos motoristas e km padrão de troca
-  de óleo ficam ajustáveis pela própria Laís (antes eram fixos no código). Cada
-  caminhão também pode ter seu próprio km de troca de óleo, diferente do padrão
-  (útil pra caminhões de marca diferente).
-- **Cavalo x Carreta**: placas de carreta (cadastradas pelo campo de carreta do
-  Seguro) ficam separadas das placas de cavalo — não aparecem em lançamento de
-  viagem, filtro de frota, abastecimento nem troca de óleo, que são coisas só de
-  cavalo.
+- **⚙️ Configurações**: porcentagem da comissão dos motoristas, km padrão de troca
+  de óleo, e **vencimento por seguradora** (dia do mês + se antecipa pra sexta-feira
+  quando cai em fim de semana) ficam ajustáveis pela própria Laís. Cada caminhão
+  também pode ter seu próprio km de troca de óleo, diferente do padrão.
+- **Cavalo x Carreta**: placas de carreta ficam separadas das placas de cavalo —
+  não aparecem em lançamento de viagem, filtro de frota, abastecimento nem troca de
+  óleo. Uma correção automática detecta e ajusta placas que ficaram marcadas errado
+  (olhando o histórico de Seguro), e também dá pra marcar/desmarcar manualmente.
+  O Relatório mensal mostra "Cavalo/Carreta" juntos numa coluna só, baseado no que
+  foi lançado no Seguro daquele mês.
+- **Seguro com seguradoras diferentes por veículo**: cavalo e carreta do mesmo
+  lançamento podem ter seguradoras diferentes (ex: ATCMG no cavalo, TRANSPOSEG na
+  carreta) — o "Confirmar e gerar financeiro" gera um **boleto separado por
+  seguradora**, cada um com o vencimento certo dela. Excluir um lançamento já
+  confirmado remove também o boleto e a despesa gerados a partir dele (ajustando,
+  em vez de apagar, se o boleto for compartilhado com outra placa).
 - **Categorias de empresa** (Boletos): cada empresa cadastrada tem uma categoria
   (Caminhões, Despesas Operacionais, Financiamentos/Bancos e Cartões, Funcionários,
-  Administrativo, Outros), e a lista de empresas fica agrupada por categoria, com
-  cada grupo podendo abrir/fechar. Tem uma tela de "gerenciar empresas" pra
-  renomear (atualiza os boletos antigos junto) e trocar a categoria.
-- Nome de empresa sempre em **maiúscula**, automaticamente — tanto nas novas quanto
-  nas que já existiam (corrigido sozinho, sem duplicar nem alterar valores).
+  Administrativo, Outros), e a lista de empresas fica agrupada por categoria. Tem
+  uma tela de "gerenciar empresas" pra renomear (atualiza os boletos antigos junto)
+  e trocar a categoria. Nome de empresa sempre em maiúscula, automaticamente.
+- **Editar lançamentos**: além de excluir, agora dá pra editar diretamente troca de
+  óleo, outros serviços, despesas do veículo, taxas de viagem, Sem Parar, vales e
+  reembolsos, e lançamentos de Seguro ainda não confirmados — sem precisar excluir
+  e lançar tudo de novo por um erro de digitação.
 - Cadastro de motoristas e contas bancárias, com opção de adicionar novos direto nos
   formulários ("+ nova placa...", "+ novo motorista...", "+ nova conta...").
 - Ferramenta de unificar motoristas com nome grafado de forma diferente (ex:
