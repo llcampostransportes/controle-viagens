@@ -6,7 +6,7 @@ arquivos**, empacotado (minificado) num único `.html`. Este README explica como
 se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
 com o Claude caso esta aqui não possa mais continuar.
 
-**Versão atual:** v2026.07.05-20
+**Versão atual:** v2026.07.05-30
 
 ## Arquivos deste pacote
 
@@ -82,6 +82,20 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   Administrativo, Outros), e a lista de empresas fica agrupada por categoria. Tem
   uma tela de "gerenciar empresas" pra renomear (atualiza os boletos antigos junto)
   e trocar a categoria. Nome de empresa sempre em maiúscula, automaticamente.
+- **Sem Parar por remessa**: cada remessa (data de vencimento) aparece separada
+  na tela/PDF/CSV, com seu próprio subtotal e status (pendente/confirmado). O
+  "Confirmar e gerar financeiro" só processa remessas ainda não confirmadas —
+  não duplica mais boleto de uma remessa que já tinha sido paga. Despesa por
+  placa nunca fica negativa (mesmo quando o crédito é maior que o pedágio); o
+  boleto continua com o valor real da fatura. Tem um botão "já confirmado?"
+  pra corrigir manualmente lançamentos antigos que ficaram com status errado.
+- **Boletos**: campos de **desconto** (com descrição) e **juros**, mostrando o
+  valor final pago. Boletos já **pagos ficam travados** pra edição — precisa
+  clicar em "Destravar para editar" antes de mexer em qualquer campo, evitando
+  alteração acidental.
+- **Filtro e ordenação na lista de viagens**: por status (todas/pendentes/pagas)
+  e por ordem (data da viagem ou ordem de lançamento), sem afetar os cartões de
+  estatística do topo.
 - **Editar lançamentos**: além de excluir, agora dá pra editar diretamente troca de
   óleo, outros serviços, despesas do veículo, taxas de viagem, Sem Parar, vales e
   reembolsos, e lançamentos de Seguro ainda não confirmados — sem precisar excluir
