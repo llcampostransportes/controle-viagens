@@ -6,7 +6,7 @@ arquivos**, empacotado (minificado) num único `.html`. Este README explica como
 se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
 com o Claude caso esta aqui não possa mais continuar.
 
-**Versão atual:** v2026.07.05-30
+**Versão atual:** v2026.07.05-40
 
 ## Arquivos deste pacote
 
@@ -80,8 +80,21 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
 - **Categorias de empresa** (Boletos): cada empresa cadastrada tem uma categoria
   (Caminhões, Despesas Operacionais, Financiamentos/Bancos e Cartões, Funcionários,
   Administrativo, Outros), e a lista de empresas fica agrupada por categoria. Tem
-  uma tela de "gerenciar empresas" pra renomear (atualiza os boletos antigos junto)
-  e trocar a categoria. Nome de empresa sempre em maiúscula, automaticamente.
+  uma tela de "gerenciar empresas" pra renomear (atualiza os boletos antigos junto,
+  fundindo em vez de duplicar se o novo nome já existir) e trocar a categoria. Nome
+  de empresa sempre em maiúscula, automaticamente.
+- **Filtro de empresas em Boletos**: uma coluna lateral fixa (redimensionável — dá
+  pra arrastar o canto e deixar maior) com um dropdown "Filtrar por empresa", onde
+  dá pra marcar/desmarcar quais empresas aparecem na tela, nos cartõezinhos de
+  totais e no relatório/PDF — tudo ao mesmo tempo, sem repetir a seleção em cada
+  lugar. Cada empresa pode ser marcada como "não aparece no relatório de boletos a
+  pagar" (em "gerenciar empresas"), útil pra quem o pagamento é feito direto com a
+  empresa, sem passar pela transportadora — ela já vem desmarcada por padrão.
+- **Trava de segurança**: boletos já pagos e viagens já lançadas abrem travadas
+  pra edição — aparece um botão "Editar" no lugar de "Salvar", que precisa ser
+  clicado antes de poder mexer em qualquer campo, evitando alteração acidental.
+- **Boletos**: campos de **desconto** (com descrição) e **juros**, mostrando o
+  valor final pago.
 - **Sem Parar por remessa**: cada remessa (data de vencimento) aparece separada
   na tela/PDF/CSV, com seu próprio subtotal e status (pendente/confirmado). O
   "Confirmar e gerar financeiro" só processa remessas ainda não confirmadas —
@@ -89,10 +102,11 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   placa nunca fica negativa (mesmo quando o crédito é maior que o pedágio); o
   boleto continua com o valor real da fatura. Tem um botão "já confirmado?"
   pra corrigir manualmente lançamentos antigos que ficaram com status errado.
-- **Boletos**: campos de **desconto** (com descrição) e **juros**, mostrando o
-  valor final pago. Boletos já **pagos ficam travados** pra edição — precisa
-  clicar em "Destravar para editar" antes de mexer em qualquer campo, evitando
-  alteração acidental.
+- **Aviso de comissão sem valor lançado**: se uma viagem tem motorista definido
+  mas ainda não tem o valor da comissão preenchido (ex: esperando o valor da
+  viagem chegar), aparece um aviso no topo do app e a viagem some do "sumido" —
+  fica visível na tela de Comissão, zerada e destacada em vermelho com "⚠️ falta
+  valor", em vez de simplesmente não aparecer em lugar nenhum.
 - **Filtro e ordenação na lista de viagens**: por status (todas/pendentes/pagas)
   e por ordem (data da viagem ou ordem de lançamento), sem afetar os cartões de
   estatística do topo.
