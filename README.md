@@ -6,7 +6,7 @@ arquivos**, empacotado (minificado) num único `.html`. Este README explica como
 se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
 com o Claude caso esta aqui não possa mais continuar.
 
-**Versão atual:** v2026.07.05-40
+**Versão atual:** v2026.07.05-50
 
 ## Arquivos deste pacote
 
@@ -61,6 +61,27 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   manual que gera o boleto e a despesa.
 
 ### Outras funcionalidades transversais
+- **Comissão já paga fora do sistema**: viagens antigas (lançadas só pro histórico,
+  cuja comissão já foi paga por fora) podem ser marcadas assim — entram no
+  relatório mensal normalmente, mas não aparecem como "a receber" de nenhum
+  motorista, nem geram reembolso de gasto extra/abastecimento/carregamento.
+- **Carregamento (troca de motorista)**: agora tem um campo pra escolher qual
+  motorista recebeu esse valor — gera automaticamente um reembolso pra ele na
+  tela de Comissão, igual já acontecia com gastos extras marcados "motorista
+  pagou do próprio bolso" (que agora também vale pra abastecimentos).
+- **Filtro de período na lista de viagens**: Tudo / Este mês / Hoje / Escolher
+  mês — o cartão "Recebido" acompanha esse período (o "A Receber" continua
+  sempre com o total geral). O cartão de Comissão ganhou uma terceira opção,
+  "Saldo devido", somando só o que falta pagar pra cada motorista.
+- **Filtro de empresas em Boletos**: uma coluna lateral fixa (redimensionável —
+  dá pra arrastar o canto e deixar maior) com um dropdown "Filtrar por
+  empresa" agrupado por categoria, onde dá pra marcar/desmarcar quais empresas
+  aparecem na tela, nos cartõezinhos de totais e no relatório/PDF — tudo ao
+  mesmo tempo, sem repetir a seleção em cada lugar. Cada empresa pode ser
+  marcada como "não aparece no relatório de boletos a pagar" (em "gerenciar
+  empresas"), útil pra quem o pagamento é feito direto com a empresa, sem
+  passar pela transportadora.
+
 - **⚙️ Configurações**: porcentagem da comissão dos motoristas, km padrão de troca
   de óleo, e **vencimento por seguradora** (dia do mês + se antecipa pra sexta-feira
   quando cai em fim de semana) ficam ajustáveis pela própria Laís. Cada caminhão
