@@ -6,7 +6,7 @@ arquivos**, empacotado (minificado) num único `.html`. Este README explica como
 se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
 com o Claude caso esta aqui não possa mais continuar.
 
-**Versão atual:** v2026.07.05-50
+**Versão atual:** v2026.07.05-60
 
 ## Arquivos deste pacote
 
@@ -61,6 +61,48 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   manual que gera o boleto e a despesa.
 
 ### Outras funcionalidades transversais
+- **Correção na fórmula da comissão**: o carregamento (troca de motorista) agora
+  é descontado do valor final da comissão (depois de aplicar o percentual),
+  não do valor base antes de calcular — assim o motorista principal perde o
+  valor cheio do carregamento, não só uma fração dele.
+- **Baixas parciais em boletos**: cada boleto pode ter várias baixas ao longo
+  do tempo (ex: um vale adiantado pro funcionário), cada uma com data, valor e
+  observação. O sistema mostra o saldo restante automaticamente, e o
+  relatório/PDF/CSV de boletos já descontam as baixas do total.
+- **Busca de boletos mais completa**: agora busca por empresa, descrição,
+  observação e nota fiscal — antes só buscava pelo nome da empresa.
+- **Relatório de Recebimento** (novo): filtra por período e caminhão, mostra
+  todos os contratos recebidos (data da viagem, data recebido, caminhão,
+  contrato, empresa, tipo e valor), com exportação em PDF.
+- **Cabeçalho reorganizado**: "Relatório mensal" e "Relatório de Recebimento"
+  ficam encostados à direita da linha de abas; "+ Lançar viagem" foi para
+  dentro da própria tela de Viagens; o topo ficou só com Salvar, Atualizar,
+  Configurações e backup.
+- **Unificar postos com nome parecido**: ferramenta manual (você escolhe quais
+  grafias são o mesmo lugar) pra corrigir postos duplicados nos abastecimentos
+  e gastos extras já lançados — o campo Posto também ganhou autocomplete.
+- **Comissão já paga fora do sistema**: viagens antigas (lançadas só pro histórico,
+  cuja comissão já foi paga por fora) podem ser marcadas assim — entram no
+  relatório mensal normalmente, mas não aparecem como "a receber" de nenhum
+  motorista, nem geram reembolso de gasto extra/abastecimento/carregamento.
+- **Carregamento (troca de motorista)**: agora tem um campo pra escolher qual
+  motorista recebeu esse valor — gera automaticamente um reembolso pra ele na
+  tela de Comissão, igual já acontecia com gastos extras marcados "motorista
+  pagou do próprio bolso" (que agora também vale pra abastecimentos).
+- **Filtro de período na lista de viagens**: Tudo / Este mês / Hoje / Escolher
+  mês — o cartão "Recebido" acompanha esse período (o "A Receber" continua
+  sempre com o total geral). O cartão de Comissão ganhou uma terceira opção,
+  "Saldo devido", somando só o que falta pagar pra cada motorista. A Comissão
+  nunca mais filtra por placa — sempre mostra todos os motoristas.
+- **Filtro de empresas em Boletos**: uma coluna lateral fixa (redimensionável —
+  dá pra arrastar o canto e deixar maior) com um dropdown "Filtrar por
+  empresa" agrupado por categoria, onde dá pra marcar/desmarcar quais empresas
+  aparecem na tela, nos cartõezinhos de totais e no relatório/PDF — tudo ao
+  mesmo tempo, sem repetir a seleção em cada lugar. Cada empresa pode ser
+  marcada como "não aparece no relatório de boletos a pagar" (em "gerenciar
+  empresas"), útil pra quem o pagamento é feito direto com a empresa, sem
+  passar pela transportadora.
+
 - **Comissão já paga fora do sistema**: viagens antigas (lançadas só pro histórico,
   cuja comissão já foi paga por fora) podem ser marcadas assim — entram no
   relatório mensal normalmente, mas não aparecem como "a receber" de nenhum
