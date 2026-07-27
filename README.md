@@ -6,7 +6,7 @@ arquivos**, empacotado (minificado) num único `.html`. Este README explica como
 se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
 com o Claude caso esta aqui não possa mais continuar.
 
-**Versão atual:** v2026.07.05-75
+**Versão atual:** v2026.07.05-95
 
 ## Arquivos deste pacote
 
@@ -61,6 +61,66 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   manual que gera o boleto e a despesa.
 
 ### Outras funcionalidades transversais
+- **Dashboard** (novo, na barra lateral): visão geral da frota por mês — cartão
+  por caminhão (foto, viagens, abastecimento, receita, rendimento), destaques
+  de "maior faturamento" e "menor gasto de abastecimento" (com foto grande do
+  caminhão), e totais gerais. Clicar num caminhão leva direto pra Viagens
+  filtrado naquela placa.
+- **Leitor de código de barras de boleto** (câmera): no formulário de boleto,
+  um botão "📷 Ler código de barras" abre a câmera (usa a biblioteca ZXing,
+  carregada na hora, sem precisar de servidor) e, ao apontar pro código de
+  barras de um boleto bancário, preenche sozinho o **valor** e a **data de
+  vencimento** — só falta preencher a empresa. Guarda o código completo no
+  boleto. Não funciona pra decodificar valor/vencimento de boleto de
+  concessionária/convênio (formato diferente), mas ainda guarda o código lido.
+- **Caminhões com foto, modelo e documentação**: em Configurações → Caminhões,
+  cada placa pode ter foto (upload com redimensionamento automático), modelo, e
+  campos de CRLV/documentação (RENAVAM, chassi, ano fabricação/modelo, cor,
+  combustível, categoria, município, UF) — útil pra emitir multa ou conferir
+  dado do veículo sem precisar do papel. O modal de Configurações virou um
+  acordeão (Geral / Seguradoras / Caminhões), abrindo uma seção de cada vez.
+- **Repaginada visual completa**: o app deixou o tema escuro antigo e ganhou
+  uma cara mais atual — fonte Inter em tudo (números com dígitos tabulares,
+  pra ficar alinhados em colunas de valores), cabeçalho claro com a logo solta
+  (sem caixinha), barra de navegação vertical (logo, abas, Relatórios,
+  Configurações, Salvar/Atualizar/Backup, e um botão "Sair" que avisa se tiver
+  algo não salvo antes de desconectar), bordas mais arredondadas em tudo,
+  cartões de estatística com degradê sutil e ícone, badges de status em
+  pílula colorida, e destaque ao passar o mouse/tocar nas linhas de lista.
+- **Sino de alertas** (no cabeçalho): consolida os avisos de troca de óleo,
+  comissão sem valor e frete sem valor num só ícone com contador (🔔 X
+  alertas), abrindo um painel com os detalhes ao clicar — a tela principal não
+  fica mais cheia de faixas de aviso.
+- **Filtros consolidados numa única linha** (Viagens, Boletos, Abastecimentos,
+  Sem Parar, Seguro): cada tela tem uma barra só com os filtros relevantes
+  (caminhão/empresa, período — com atalhos Hoje/Esta semana/Este mês/Tudo
+  dentro do mesmo campo dropdown —, status/posto, e busca por texto).
+- **Perfil do caminhão** (Abastecimentos): ao selecionar uma placa, mostra
+  foto, KM atual, último abastecimento, consumo médio (km/l), gasto no mês,
+  gráfico de consumo e histórico completo daquela placa.
+- **Correção na fórmula da comissão**: o carregamento (troca de motorista) é
+  descontado do valor final da comissão (depois de aplicar o percentual), não
+  do valor base antes de calcular — e agora também entra como despesa própria
+  no relatório mensal e no Dashboard.
+- **Carregamento (troca de motorista)**: campo pra escolher qual motorista
+  recebeu esse valor — gera reembolso automático pra ele na tela de Comissão,
+  igual gastos extras e abastecimentos marcados "motorista pagou do próprio
+  bolso".
+- **Comissão já paga fora do sistema**: viagens antigas (cuja comissão já foi
+  paga por fora) entram no relatório mensal normalmente, mas não aparecem
+  como "a receber" de nenhum motorista.
+- **Baixas parciais em boletos**: cada boleto pode ter várias baixas ao longo
+  do tempo (ex: vale adiantado), com data, valor e observação — o
+  relatório/PDF/CSV já descontam do total.
+- **Busca de boletos mais completa**: busca por empresa, descrição,
+  observação e nota fiscal.
+- **Relatório de Recebimento** (novo): filtra por período e caminhão, mostra
+  todos os contratos recebidos, com exportação em PDF.
+- **Unificar postos com nome parecido**: ferramenta manual pra corrigir postos
+  duplicados nos abastecimentos e gastos extras já lançados.
+- **Correção em campos de KM**: os campos de KM ignoram ponto e vírgula
+  digitados sem querer.
+
 - **Repaginada visual completa**: o app deixou o tema escuro antigo e ganhou
   uma cara mais atual — cabeçalho claro, barra de navegação vertical (logo,
   abas de Viagens/Boletos/Abastecimentos/Troca de Óleo/Sem Parar/Seguro,
