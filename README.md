@@ -6,7 +6,7 @@ arquivos**, empacotado (minificado) num único `.html`. Este README explica como
 se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
 com o Claude caso esta aqui não possa mais continuar.
 
-**Versão atual:** v2026.07.05-110
+**Versão atual:** v2026.07.05-120
 
 ## Arquivos deste pacote
 
@@ -61,6 +61,53 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   manual que gera o boleto e a despesa.
 
 ### Outras funcionalidades transversais
+- **Correção do dígito verificador na leitura do código de barras**: a
+  FEBRABAN mudou a fórmula da data de vencimento em fevereiro de 2025 (a
+  data-base antiga estourou o limite); corrigido pra nova regra. Além disso,
+  o app agora confere o "dígito verificador" (o mesmo cálculo que os bancos
+  fazem) antes de aceitar uma leitura da câmera, evitando salvar um código
+  que o banco recusaria depois.
+- **Linha digitável, não só código de barras**: ao escanear um boleto, o app
+  gera e guarda a linha digitável (os 47 números com pontinhos, formato que
+  os apps de banco esperam pra "colar e pagar"), além do código de barras
+  cru. Tem também uma opção de **digitar a linha manualmente** quando a
+  câmera não conseguir ler (comum em boleto com dobra, papel curvado, ou
+  código de barras pequeno na tela).
+- **Dashboard — clicar num caminhão abre o Relatório mensal detalhado**: em
+  vez de ir pra Viagens, agora abre direto o relatório daquela placa, com uma
+  seta "← Voltar" no topo pra retornar ao Dashboard, e um link "ver todos os
+  caminhões" pra trocar sem fechar tudo.
+- **Dashboard com período flexível**: antes só dava pra escolher um mês
+  fechado; agora tem o mesmo dropdown de período das outras telas (Hoje,
+  Esta semana, Este mês, Tudo, ou um intervalo escolhido).
+- **Foto do caminhão com compressão progressiva**: se a primeira compressão
+  ainda ficar grande demais pra uma célula da planilha (o que dependia muito
+  do quanto de detalhe a foto tinha), o app agora tenta de novo com menos
+  qualidade/tamanho, em vez de travar salvando sempre a mesma foto grande
+  demais.
+- **Upload de documento pro Google Drive**: fotos/PDFs de documento anual
+  (CRLV) agora sobem pro Google Drive da própria pessoa (numa pasta que o
+  app cria sozinho) em vez de tentar caber na célula da planilha — sem
+  limite de tamanho. Precisa de uma permissão adicional (`drive.file`) da
+  conta Google, só de arquivos criados pelo próprio app.
+- **IPVA (cavalo) separado de Taxa de licenciamento (carreta)**: cada um com
+  seu próprio texto e alerta, já que carreta não paga IPVA de verdade.
+- **Placa editável**: em Configurações → Caminhões/Carretas, dá pra corrigir
+  a placa direto ali, sem afetar nenhum dado já lançado (o sistema liga tudo
+  por um ID interno, não pela placa).
+- **Campos de CRLV/documentação nas Carretas também**: RENAVAM, chassi,
+  **CRV**, ano fabricação/modelo, cor, categoria, município, UF — numa seção
+  própria (sem foto do veículo, já que carreta não precisa).
+- **Correção automática de ano digitado errado**: em todos os campos de
+  data do sistema, se a pessoa digitar só os 2 últimos dígitos do ano (ex:
+  "26" em vez de "2026"), o sistema completa sozinho pro ano certo.
+- **Relatório de Recebimento — período padrão corrigido**: antes vinha só
+  com "hoje"; agora vem do início do mês até hoje, evitando que um
+  recebimento de outro dia pareça estar "faltando" no relatório.
+- **Sino de alertas dividido em dois**: 🛢️ troca de óleo tem indicador
+  próprio, separado do 🔔 resto dos alertas (documentos, IPVA/licenciamento,
+  comissão e frete sem valor).
+
 - **Correção do leitor de código de barras**: o leitor de câmera precisava de
   uma segunda biblioteca (`@zxing/browser`, separada da `@zxing/library`) que
   não estava sendo carregada — corrigido, agora o leitor funciona de verdade.
