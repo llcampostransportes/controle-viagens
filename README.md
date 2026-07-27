@@ -6,7 +6,7 @@ arquivos**, empacotado (minificado) num único `.html`. Este README explica como
 se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
 com o Claude caso esta aqui não possa mais continuar.
 
-**Versão atual:** v2026.07.05-101
+**Versão atual:** v2026.07.05-110
 
 ## Arquivos deste pacote
 
@@ -61,6 +61,48 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   manual que gera o boleto e a despesa.
 
 ### Outras funcionalidades transversais
+- **Correção do leitor de código de barras**: o leitor de câmera precisava de
+  uma segunda biblioteca (`@zxing/browser`, separada da `@zxing/library`) que
+  não estava sendo carregada — corrigido, agora o leitor funciona de verdade.
+- **Correção automática de ano digitado errado**: em todos os 34 campos de
+  data do sistema, se a pessoa digitar só os 2 últimos dígitos do ano (ex:
+  "26" em vez de "2026") e isso acabar salvando como "0026", o sistema já
+  corrige sozinho pro ano certo (20XX) assim que o campo muda.
+- **Relatório de Recebimento — período padrão corrigido**: antes vinha com
+  "De" e "Até" iguais a hoje, então um saldo/adiantamento recebido em outro
+  dia não aparecia até a pessoa alargar o filtro manualmente. Agora o padrão
+  é do início do mês até hoje.
+- **Dashboard — "maior rendimento" em vez de "maior faturamento"**: o cartão
+  de destaque agora ranqueia pelo líquido (receita menos comissão,
+  carregamento, abastecimento, gastos e despesas do veículo), não pelo
+  faturamento bruto — e mostra a foto do caminhão bem grande.
+- **Upload do documento anual pro Google Drive**: em vez de guardar a
+  foto/PDF direto na célula da planilha (que tem limite de tamanho), agora
+  sobe pro Google Drive da própria pessoa (numa pasta criada automaticamente
+  pelo app) e guarda só o link — sem limite de tamanho pra anexar. Precisa de
+  uma permissão adicional (`drive.file`, só arquivos criados pelo próprio
+  app) da conta Google.
+- **Placa editável**: em Configurações → Caminhões/Carretas, a placa agora
+  pode ser corrigida direto ali (útil pra digitação errada). Como o sistema
+  usa um ID interno pra ligar os dados, mudar a placa não afeta nada mais.
+- **Taxa de licenciamento (carreta) separada de IPVA (cavalo)**: como carreta
+  não paga IPVA, o texto e o alerta ficaram certos — "taxa de licenciamento"
+  pra carreta, "IPVA" pra cavalo — cada um com seu próprio aviso no sino.
+- **Sino de alertas dividido em dois**: 🛢️ troca de óleo tem seu próprio
+  indicador, separado do 🔔 resto dos alertas (documentos, IPVA/licenciamento,
+  comissão e frete sem valor) — pra não ficar escondido entre os avisos
+  administrativos.
+- **Leitor de código de barras também em "+ Lançar boleto"**: antes só
+  funcionava editando um boleto já existente; agora cada boleto dentro da
+  tela de "novo lançamento" (que divide nota em parcelas) também tem seu
+  próprio botão de leitor.
+
+- **IPVA marcado por ano** (separado do documento): em Configurações →
+  Caminhões/Carretas, um botão "Marcar pago"/"Desmarcar" pra registrar se o
+  IPVA do ano atual já foi pago — separado de ter o documento (CRLV) anexado,
+  já que às vezes o IPVA já saiu mas o CRLV do ano ainda não chegou. Vira um
+  alerta próprio no sino, distinto do alerta de documento não anexado.
+
 - **Anexar documento anual do caminhão e da carreta (CRLV)**: em
   Configurações → Caminhões (e agora também Carretas, numa seção própria, sem
   precisar de foto do veículo), dá pra anexar uma foto **ou um PDF** do
