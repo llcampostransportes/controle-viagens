@@ -6,7 +6,7 @@ arquivos**, empacotado (minificado) num único `.html`. Este README explica como
 se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
 com o Claude caso esta aqui não possa mais continuar.
 
-**Versão atual:** v2026.07.05-60
+**Versão atual:** v2026.07.05-75
 
 ## Arquivos deste pacote
 
@@ -61,73 +61,70 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   manual que gera o boleto e a despesa.
 
 ### Outras funcionalidades transversais
-- **Correção na fórmula da comissão**: o carregamento (troca de motorista) agora
-  é descontado do valor final da comissão (depois de aplicar o percentual),
-  não do valor base antes de calcular — assim o motorista principal perde o
-  valor cheio do carregamento, não só uma fração dele.
+- **Repaginada visual completa**: o app deixou o tema escuro antigo e ganhou
+  uma cara mais atual — cabeçalho claro, barra de navegação vertical (logo,
+  abas de Viagens/Boletos/Abastecimentos/Troca de Óleo/Sem Parar/Seguro,
+  seção de Relatórios, Configurações, Salvar/Atualizar/Backup e um botão
+  "Sair" no final, que avisa se tiver algo não salvo antes de desconectar da
+  conta Google).
+- **Filtros consolidados numa única linha** (Viagens, Boletos e
+  Abastecimentos): cada tela tem uma barra só com os filtros relevantes
+  (caminhão/empresa, período — com atalhos Hoje/Esta semana/Este mês/Tudo
+  dentro do mesmo campo dropdown —, status/posto, e uma busca por texto),
+  em vez de coluna lateral ou campos espalhados. Em Boletos, o campo
+  "Empresa" é um dropdown com busca e categorias, e tem um atalho pra
+  "gerenciar empresas" (renomear, mudar categoria, ou marcar como "não
+  aparece no relatório de boletos a pagar").
+- **Cartões modernizados**: lista de viagens e cartões de troca de óleo com
+  visual mais limpo — badge de status em pílula colorida (verde/amarelo/
+  vermelho), ícones (📅 data, 📍 rota, 👤 motorista), barra de progresso de km
+  até a próxima troca de óleo, e aviso "⚠️ Atenção" quando faltar 1.000 km ou
+  menos pra trocar (além do aviso de "precisa trocar" quando já passou).
+- **Perfil do caminhão** (Abastecimentos): cada placa cadastrada pode ter foto
+  (upload direto, redimensionada automaticamente) e modelo, ajustáveis em
+  Configurações → Caminhões. Ao selecionar uma placa em Abastecimentos, mostra
+  um cartão com foto, KM atual, último abastecimento, consumo médio (km/l,
+  calculado entre reabastecimentos de diesel), gasto no mês, um gráfico de
+  consumo e o histórico completo daquela placa. Quando uma placa é selecionada
+  em Viagens, o mesmo cartão de foto + modelo aparece no topo.
+- **Correção na fórmula da comissão**: o carregamento (troca de motorista) é
+  descontado do valor final da comissão (depois de aplicar o percentual), não
+  do valor base antes de calcular — e agora também entra como despesa própria
+  no relatório mensal, que antes não contabilizava esse valor em lugar nenhum.
+- **Carregamento (troca de motorista)**: tem um campo pra escolher qual
+  motorista recebeu esse valor — gera automaticamente um reembolso pra ele na
+  tela de Comissão, igual já acontece com gastos extras e abastecimentos
+  marcados "motorista pagou do próprio bolso".
+- **Comissão já paga fora do sistema**: viagens antigas (lançadas só pro
+  histórico, cuja comissão já foi paga por fora) podem ser marcadas assim —
+  entram no relatório mensal normalmente, mas não aparecem como "a receber"
+  de nenhum motorista, nem geram reembolso de gasto extra/abastecimento/
+  carregamento.
+- **Filtro de período na lista de viagens**: Tudo / Este mês / Hoje / Escolher
+  mês — o cartão "Recebido" acompanha esse período (o "A Receber" continua
+  sempre com o total geral). O cartão de Comissão tem uma opção "Saldo
+  devido", somando só o que falta pagar pra cada motorista, e nunca mais
+  filtra por placa — sempre mostra todos os motoristas.
+- **Correção em campos de KM**: os campos de KM (troca de óleo, KM início/fim
+  da viagem, KM do abastecimento) ignoram ponto e vírgula digitados sem
+  querer, evitando o erro clássico de "320.186" virar 320 em vez de 320 mil.
 - **Baixas parciais em boletos**: cada boleto pode ter várias baixas ao longo
   do tempo (ex: um vale adiantado pro funcionário), cada uma com data, valor e
   observação. O sistema mostra o saldo restante automaticamente, e o
   relatório/PDF/CSV de boletos já descontam as baixas do total.
-- **Busca de boletos mais completa**: agora busca por empresa, descrição,
+- **Busca de boletos mais completa**: busca por empresa, descrição,
   observação e nota fiscal — antes só buscava pelo nome da empresa.
 - **Relatório de Recebimento** (novo): filtra por período e caminhão, mostra
   todos os contratos recebidos (data da viagem, data recebido, caminhão,
   contrato, empresa, tipo e valor), com exportação em PDF.
-- **Cabeçalho reorganizado**: "Relatório mensal" e "Relatório de Recebimento"
-  ficam encostados à direita da linha de abas; "+ Lançar viagem" foi para
-  dentro da própria tela de Viagens; o topo ficou só com Salvar, Atualizar,
-  Configurações e backup.
 - **Unificar postos com nome parecido**: ferramenta manual (você escolhe quais
   grafias são o mesmo lugar) pra corrigir postos duplicados nos abastecimentos
   e gastos extras já lançados — o campo Posto também ganhou autocomplete.
-- **Comissão já paga fora do sistema**: viagens antigas (lançadas só pro histórico,
-  cuja comissão já foi paga por fora) podem ser marcadas assim — entram no
-  relatório mensal normalmente, mas não aparecem como "a receber" de nenhum
-  motorista, nem geram reembolso de gasto extra/abastecimento/carregamento.
-- **Carregamento (troca de motorista)**: agora tem um campo pra escolher qual
-  motorista recebeu esse valor — gera automaticamente um reembolso pra ele na
-  tela de Comissão, igual já acontecia com gastos extras marcados "motorista
-  pagou do próprio bolso" (que agora também vale pra abastecimentos).
-- **Filtro de período na lista de viagens**: Tudo / Este mês / Hoje / Escolher
-  mês — o cartão "Recebido" acompanha esse período (o "A Receber" continua
-  sempre com o total geral). O cartão de Comissão ganhou uma terceira opção,
-  "Saldo devido", somando só o que falta pagar pra cada motorista. A Comissão
-  nunca mais filtra por placa — sempre mostra todos os motoristas.
-- **Filtro de empresas em Boletos**: uma coluna lateral fixa (redimensionável —
-  dá pra arrastar o canto e deixar maior) com um dropdown "Filtrar por
-  empresa" agrupado por categoria, onde dá pra marcar/desmarcar quais empresas
-  aparecem na tela, nos cartõezinhos de totais e no relatório/PDF — tudo ao
-  mesmo tempo, sem repetir a seleção em cada lugar. Cada empresa pode ser
-  marcada como "não aparece no relatório de boletos a pagar" (em "gerenciar
-  empresas"), útil pra quem o pagamento é feito direto com a empresa, sem
-  passar pela transportadora.
-
-- **Comissão já paga fora do sistema**: viagens antigas (lançadas só pro histórico,
-  cuja comissão já foi paga por fora) podem ser marcadas assim — entram no
-  relatório mensal normalmente, mas não aparecem como "a receber" de nenhum
-  motorista, nem geram reembolso de gasto extra/abastecimento/carregamento.
-- **Carregamento (troca de motorista)**: agora tem um campo pra escolher qual
-  motorista recebeu esse valor — gera automaticamente um reembolso pra ele na
-  tela de Comissão, igual já acontecia com gastos extras marcados "motorista
-  pagou do próprio bolso" (que agora também vale pra abastecimentos).
-- **Filtro de período na lista de viagens**: Tudo / Este mês / Hoje / Escolher
-  mês — o cartão "Recebido" acompanha esse período (o "A Receber" continua
-  sempre com o total geral). O cartão de Comissão ganhou uma terceira opção,
-  "Saldo devido", somando só o que falta pagar pra cada motorista.
-- **Filtro de empresas em Boletos**: uma coluna lateral fixa (redimensionável —
-  dá pra arrastar o canto e deixar maior) com um dropdown "Filtrar por
-  empresa" agrupado por categoria, onde dá pra marcar/desmarcar quais empresas
-  aparecem na tela, nos cartõezinhos de totais e no relatório/PDF — tudo ao
-  mesmo tempo, sem repetir a seleção em cada lugar. Cada empresa pode ser
-  marcada como "não aparece no relatório de boletos a pagar" (em "gerenciar
-  empresas"), útil pra quem o pagamento é feito direto com a empresa, sem
-  passar pela transportadora.
-
 - **⚙️ Configurações**: porcentagem da comissão dos motoristas, km padrão de troca
   de óleo, e **vencimento por seguradora** (dia do mês + se antecipa pra sexta-feira
   quando cai em fim de semana) ficam ajustáveis pela própria Laís. Cada caminhão
-  também pode ter seu próprio km de troca de óleo, diferente do padrão.
+  também pode ter seu próprio km de troca de óleo, diferente do padrão, além
+  de foto e modelo.
 - **Cavalo x Carreta**: placas de carreta ficam separadas das placas de cavalo —
   não aparecem em lançamento de viagem, filtro de frota, abastecimento nem troca de
   óleo. Uma correção automática detecta e ajusta placas que ficaram marcadas errado
@@ -146,13 +143,6 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   uma tela de "gerenciar empresas" pra renomear (atualiza os boletos antigos junto,
   fundindo em vez de duplicar se o novo nome já existir) e trocar a categoria. Nome
   de empresa sempre em maiúscula, automaticamente.
-- **Filtro de empresas em Boletos**: uma coluna lateral fixa (redimensionável — dá
-  pra arrastar o canto e deixar maior) com um dropdown "Filtrar por empresa", onde
-  dá pra marcar/desmarcar quais empresas aparecem na tela, nos cartõezinhos de
-  totais e no relatório/PDF — tudo ao mesmo tempo, sem repetir a seleção em cada
-  lugar. Cada empresa pode ser marcada como "não aparece no relatório de boletos a
-  pagar" (em "gerenciar empresas"), útil pra quem o pagamento é feito direto com a
-  empresa, sem passar pela transportadora — ela já vem desmarcada por padrão.
 - **Trava de segurança**: boletos já pagos e viagens já lançadas abrem travadas
   pra edição — aparece um botão "Editar" no lugar de "Salvar", que precisa ser
   clicado antes de poder mexer em qualquer campo, evitando alteração acidental.
@@ -167,13 +157,11 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   pra corrigir manualmente lançamentos antigos que ficaram com status errado.
 - **Aviso de comissão sem valor lançado**: se uma viagem tem motorista definido
   mas ainda não tem o valor da comissão preenchido (ex: esperando o valor da
-  viagem chegar), aparece um aviso no topo do app e a viagem some do "sumido" —
-  fica visível na tela de Comissão, zerada e destacada em vermelho com "⚠️ falta
-  valor", em vez de simplesmente não aparecer em lugar nenhum.
-- **Filtro e ordenação na lista de viagens**: por status (todas/pendentes/pagas)
-  e por ordem (data da viagem ou ordem de lançamento), sem afetar os cartões de
-  estatística do topo.
-- **Editar lançamentos**: além de excluir, agora dá pra editar diretamente troca de
+  viagem chegar), aparece um aviso no topo do app e a viagem fica visível na
+  tela de Comissão, zerada e destacada em vermelho com "⚠️ falta valor", em vez
+  de simplesmente não aparecer em lugar nenhum. O mesmo vale pra viagens sem
+  valor de frete lançado, que aparecem destacadas em "A Receber".
+- **Editar lançamentos**: além de excluir, dá pra editar diretamente troca de
   óleo, outros serviços, despesas do veículo, taxas de viagem, Sem Parar, vales e
   reembolsos, e lançamentos de Seguro ainda não confirmados — sem precisar excluir
   e lançar tudo de novo por um erro de digitação.
@@ -191,10 +179,13 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   depois de ~1h; sem isso, sessões longas paravam de salvar silenciosamente), e
   tentativa automática de salvar de novo se uma gravação falhar, com botão de
   "Reconectar" pra quando a renovação silenciosa não funciona.
-- Aviso ao tentar fechar a aba com alterações ainda não confirmadas na planilha.
+- Aviso ao tentar fechar a aba (ou clicar em "Sair") com alterações ainda não
+  confirmadas na planilha.
 - Relatórios em PDF com visual colorido (cabeçalho colorido, linhas listradas,
   status em cores) — incluindo a correção pra forçar o navegador a realmente
   imprimir essas cores (por padrão ele esconde cor de fundo na impressão).
+- Ajustes responsivos gerais pra uso em celular (tabelas com rolagem
+  horizontal, campos empilhados, modais que não passam da largura da tela).
 
 ## Dependências / bibliotecas usadas
 
