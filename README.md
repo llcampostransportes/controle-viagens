@@ -6,7 +6,7 @@ arquivos**, empacotado (minificado) num único `.html`. Este README explica como
 se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
 com o Claude caso esta aqui não possa mais continuar.
 
-**Versão atual:** v2026.07.05-99
+**Versão atual:** v2026.07.05-101
 
 ## Arquivos deste pacote
 
@@ -63,12 +63,12 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
 ### Outras funcionalidades transversais
 - **Anexar documento anual do caminhão e da carreta (CRLV)**: em
   Configurações → Caminhões (e agora também Carretas, numa seção própria, sem
-  precisar de foto do veículo), dá pra anexar uma foto do documento pago de
-  cada ano, e preencher RENAVAM, chassi, **CRV**, ano fabricação/modelo, cor,
-  categoria, município e UF. O sino de alertas avisa sozinho, sem precisar
-  lembrar de nenhuma data, se o **ano atual** ainda não tiver documento
-  anexado pra alguma placa (cavalo ou carreta). Fica um histórico dos anos
-  anteriores também, com link pra ver a foto de cada um.
+  precisar de foto do veículo), dá pra anexar uma foto **ou um PDF** do
+  documento pago de cada ano, e preencher RENAVAM, chassi, **CRV**, ano
+  fabricação/modelo, cor, categoria, município e UF. O sino de alertas avisa
+  sozinho, sem precisar lembrar de nenhuma data, se o **ano atual** ainda não
+  tiver documento anexado pra alguma placa (cavalo ou carreta). Fica um
+  histórico dos anos anteriores também, com link pra ver o arquivo de cada um.
 - **PDFs modernizados**: cabeçalhos de tabela padronizados no azul novo do
   sistema (#2563EB), com uma barrinha colorida de destaque abaixo do título
   de cada relatório — vale pra todos os PDFs (relatório mensal, boletos,
