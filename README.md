@@ -6,7 +6,7 @@ arquivos**, empacotado (minificado) num único `.html`. Este README explica como
 se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
 com o Claude caso esta aqui não possa mais continuar.
 
-**Versão atual:** v2026.07.05-120
+**Versão atual:** v2026.07.05-130
 
 ## Arquivos deste pacote
 
@@ -61,6 +61,50 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   manual que gera o boleto e a despesa.
 
 ### Outras funcionalidades transversais
+- **Correção crítica: correção de ano digitado brigando com a digitação**: a
+  correção automática de ano (que completa "26" pra "2026") rodava a cada
+  tecla digitada, e isso bagunçava o valor enquanto a pessoa ainda estava no
+  meio de digitar (podia virar um ano errado tipo 2006 em vez de 2026).
+  Corrigido: agora só corrige quando a pessoa termina de mexer no campo
+  (sai dele), sem interferir na digitação.
+- **Alertas clicáveis**: tanto o 🛢️ de troca de óleo quanto os itens dentro do
+  🔔 de outros alertas (comissão/frete sem valor, documento, IPVA,
+  licenciamento) agora são botões — clicar leva direto pra tela ou pro
+  lançamento certo, sem precisar procurar.
+- **Leitor de código de barras com lanterna e bipe**: um botão de lanterna
+  aparece quando o aparelho permite controlar isso pelo navegador (funciona
+  em Android; no iPhone/iPad a Apple não libera esse controle, é uma
+  limitação da plataforma, não do app). Também toca um bipe curto e tenta
+  vibrar (vibração só funciona em Android) assim que o código é lido com
+  sucesso, pra ficar claro que capturou mesmo sem olhar pra tela.
+- **PDF do card de Comissão por motorista**: agora tem um "Baixar PDF" nesse
+  painel, sem logo (só o conteúdo), mostrando pra cada motorista: totais
+  (gerado, reembolsos, pago em vales, saldo), a lista completa de viagens, e
+  a lista de vales/reembolsos — igual aparece na tela.
+- **Comissão gerada por motorista no Dashboard**: uma tabela nova, só de
+  visualização, mostrando quanto cada motorista gerou de comissão no período
+  escolhido — sem misturar com pendente/pago/vale, é só o valor bruto
+  gerado, sem mexer em nada da tela de Comissão.
+- **Relatório mensal — seletor de placa e quebra de página**: um dropdown de
+  placa direto no cabeçalho do relatório (sem precisar fechar/reabrir), e no
+  modo detalhado cada caminhão agora começa numa página nova (com o
+  cabeçalho repetido em cada uma), mesmo que a placa anterior só tenha
+  ocupado meia folha.
+- **Dashboard — clicar num caminhão abre o Relatório mensal detalhado**: com
+  uma seta "← Voltar" pra retornar ao Dashboard, e período flexível (Hoje,
+  Esta semana, Este mês, Tudo, ou intervalo escolhido) em vez de só mês
+  fechado.
+- **Foto do caminhão com compressão progressiva**: se a primeira compressão
+  ainda ficar grande demais pra uma célula da planilha, tenta de novo com
+  menos qualidade/tamanho automaticamente.
+- **Correção do dígito verificador e nova fórmula de vencimento no código de
+  barras**: a FEBRABAN mudou a fórmula da data em fev/2025; corrigido pra
+  nova regra. O app também confere o dígito verificador do banco antes de
+  aceitar uma leitura, e gera a linha digitável (não só o código de barras
+  cru) — que é o formato que os apps de banco esperam pra colar e pagar.
+  Tem também opção de digitar a linha manualmente quando a câmera não
+  conseguir ler.
+
 - **Correção do dígito verificador na leitura do código de barras**: a
   FEBRABAN mudou a fórmula da data de vencimento em fevereiro de 2025 (a
   data-base antiga estourou o limite); corrigido pra nova regra. Além disso,
