@@ -6,7 +6,7 @@ arquivos**, empacotado (minificado) num único `.html`. Este README explica como
 se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
 com o Claude caso esta aqui não possa mais continuar.
 
-**Versão atual:** v2026.07.05-130
+**Versão atual:** v2026.07.05-141
 
 ## Arquivos deste pacote
 
@@ -61,6 +61,52 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   manual que gera o boleto e a despesa.
 
 ### Outras funcionalidades transversais
+- **Carreta vinculada ao cavalo**: em Configurações → Caminhões, cada cavalo
+  pode ter uma carreta padrão vinculada. Ao lançar um Seguro, escolhendo o
+  cavalo, a carreta já vem preenchida sozinha (dá pra trocar manualmente se
+  precisar). Útil pra quem sempre roda com o mesmo par.
+- **Senha extra do sistema**: em Configurações → Geral, dá pra ativar uma
+  senha própria do app (além do login do Google) — pede toda vez que o app
+  abre, útil se o computador/iPad já fica logado sozinho no Google. É uma
+  trava do navegador (não é segurança de banco), mas evita alguém abrir o
+  sistema direto num aparelho já conectado.
+- **Categorias de empresa editáveis**: em Boletos → gerenciar empresas, uma
+  seção nova deixa renomear categorias existentes (atualiza em cascata todas
+  as empresas que já estavam nela), remover, e criar categorias novas. Uma
+  seção separada mostra empresas que só existem como texto solto num boleto
+  (sem cadastro) pra você dar uma categoria — vira cadastro na hora.
+- **Menu "Relatórios" consolidado**: Relatório mensal, Recebimento e Gastos
+  extras viraram um único item na barra lateral, com um menu que abre pra
+  baixo, em vez de três botões separados.
+- **Relatório novo: Gastos extras por caminhão**: pedágio pago na hora,
+  comida, conserto de estrada, taxa de viagem (rateio) — tudo que nunca vira
+  boleto, agora dá pra ver separado por caminhão, com período flexível e
+  PDF. Gasto extra ganhou um campo de categoria (com sugestões), já vindo
+  marcado "Despesas Estrada" por padrão — e tem um botão pra aplicar essa
+  categoria de uma vez em todos os gastos antigos que ainda não tinham.
+- **Dashboard renomeado nos cartões**: "Receita" e "Rendimento" viraram
+  "Receita bruta" e "Rendimento líquido", pra ficar mais claro — prepara o
+  terreno pra um futuro "Dashboard Geral" (separado desse, que vai juntar
+  boletos categorizados e despesas pessoais/de casa).
+- **Leitor de código de barras com câmera OU leitor USB/sem fio**: agora
+  pergunta primeiro como você vai ler (câmera, ou leitor USB/digitar) —
+  quem tem leitor físico (que funciona como teclado) não precisa mais
+  esperar a câmera carregar, só clica em "digitar" e escaneia direto.
+- **Correção crítica: código de barras com dígito verificador**: a FEBRABAN
+  mudou a fórmula da data de vencimento em fev/2025; corrigido pra nova
+  regra. O app confere o dígito verificador (mesmo cálculo dos bancos) antes
+  de aceitar uma leitura, e gera a linha digitável (formato que os apps de
+  banco esperam pra colar e pagar), não só o código de barras cru.
+- **Alertas clicáveis**: 🛢️ troca de óleo e os itens dentro do 🔔 outros
+  alertas (comissão/frete sem valor, documento, IPVA, licenciamento) agora
+  são clicáveis, levando direto pro lançamento ou tela certa.
+- **PDF do card de Comissão por motorista**: com toda a lista de viagens e
+  vales de cada motorista, sem logo — igual aparece na tela.
+- **Correção crítica: correção de ano digitado brigava com a digitação**: a
+  correção automática de ano (completa "26" pra "2026") rodava a cada tecla
+  e bagunçava o valor. Agora só corrige quando a pessoa termina de mexer no
+  campo.
+
 - **Correção crítica: correção de ano digitado brigando com a digitação**: a
   correção automática de ano (que completa "26" pra "2026") rodava a cada
   tecla digitada, e isso bagunçava o valor enquanto a pessoa ainda estava no
