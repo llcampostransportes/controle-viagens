@@ -6,7 +6,7 @@ arquivos**, empacotado (minificado) num único `.html`. Este README explica como
 se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
 com o Claude caso esta aqui não possa mais continuar.
 
-**Versão atual:** v2026.07.05-150
+**Versão atual:** v2026.07.05-160
 
 ## Arquivos deste pacote
 
@@ -61,6 +61,44 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   manual que gera o boleto e a despesa.
 
 ### Outras funcionalidades transversais
+- **Dashboard Geral (novo!)**: Receita bruta − comissões − gastos extras
+  (Despesas Estrada) − boletos pagos (das categorias escolhidas) − taxa de
+  viagem = Rendimento líquido geral. Cartões visuais no topo (igual o
+  Dashboard de Viagens) + detalhamento linha por linha + tabela de "boletos
+  considerados" (com categoria e vencimento, pra bater o olho e achar
+  qualquer diferença). Em Configurações → Geral, um checklist escolhe quais
+  categorias de empresa entram no cálculo. Só conta boleto com data de
+  pagamento preenchida dentro do período (dinheiro que já saiu de verdade).
+- **Barra lateral**: "Dashboard" virou um menu com duas opções — 🚚 Viagens
+  (o de sempre) e 🌐 Geral (novo) — igual já tínhamos feito com Relatórios.
+- **Alerta de boleto vencido**: novo alerta no sino 🔔, clicável — leva
+  direto pro boleto específico pra editar, não só pra tela geral. Em
+  Configurações → Geral, um checklist de empresas escolhe quais entram
+  nesse alerta (útil pra ignorar uma que você paga direto, fora do sistema).
+- **Correção crítica: cartão "Comissão" da tela de Viagens** estava
+  ignorando o filtro de período e sempre somava a comissão de TODAS as
+  viagens já lançadas, mesmo com "Este mês" selecionado. Corrigido pra
+  respeitar o período/placa escolhidos, igual ao resto da tela.
+- **Formulário de boleto reorganizado**: "Data de vencimento" e "Data de
+  pagamento (baixa)" lado a lado; "Novo vencimento" logo abaixo.
+- **Novo vencimento (renegociação de boleto)**: campo opcional que, se
+  preenchido, passa a valer pra status/período/relatórios, mantendo a data
+  original só como referência.
+- **PDF do Relatório de Boletos**: cabeçalho não lista mais o nome de cada
+  empresa selecionada (só a contagem), evitando poluir o topo do PDF.
+- **Tela de Editar Viagem redesenhada**: layout de duas colunas, painel bem
+  mais largo, ícones em cada seção, textos longos entre parênteses viraram
+  um ⓘ, resumo (Total a receber, Comissão, Abastecimentos, Total de
+  despesas) centralizado no rodapé, junto com "Salvar viagem".
+- **Setor nos gastos extras**: campo opcional pra marcar tipos específicos
+  (ex: "Borracharia Miradouro"), com filtro e total por setor no relatório.
+- **Carreta vinculada ao cavalo**, **trocar tipo cavalo/carreta em
+  Configurações**, **senha extra do sistema**, **categorias de empresa
+  editáveis**, **menu "Relatórios" consolidado**, **relatório de Gastos
+  Extras por caminhão**, **leitor de código de barras com câmera ou leitor
+  USB/sem fio + linha digitável + dígito verificador**, **alertas
+  clicáveis**, entre outras melhorias das últimas versões.
+
 - **Tela de Editar Viagem redesenhada**: layout de duas colunas (esquerda:
   Viagem + Financeiro; direita: Abastecimentos + Gastos extras), painel bem
   mais largo (até 1100px), ícones em cada seção, textos longos entre
