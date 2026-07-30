@@ -6,7 +6,7 @@ arquivos**, empacotado (minificado) num único `.html`. Este README explica como
 se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
 com o Claude caso esta aqui não possa mais continuar.
 
-**Versão atual:** v2026.07.05-141
+**Versão atual:** v2026.07.05-150
 
 ## Arquivos deste pacote
 
@@ -61,6 +61,57 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   manual que gera o boleto e a despesa.
 
 ### Outras funcionalidades transversais
+- **Tela de Editar Viagem redesenhada**: layout de duas colunas (esquerda:
+  Viagem + Financeiro; direita: Abastecimentos + Gastos extras), painel bem
+  mais largo (até 1100px), ícones em cada seção, textos longos entre
+  parênteses viraram um ⓘ (clicável/hover) em vez de quebrar o layout,
+  botão "+ adicionar abastecimento" em verde, "Salvar viagem" bem mais
+  largo. Um resumo (Total a receber, Comissão, Abastecimentos, Total de
+  despesas) fica fixo embaixo, logo abaixo do botão Salvar, centralizado —
+  sempre visível não importa o quanto role em qualquer coluna.
+- **Títulos de campo em azul**: em todo o sistema (não só Viagens), os
+  rótulos dos campos (tipo "Data", "Placa", "Valor") usam o azul
+  predominante do sistema (#2451A6) em vez de cinza.
+- **Novo vencimento (renegociação de boleto)**: ao editar um boleto, um
+  campo opcional "Novo vencimento" — se preenchido, passa a valer pra
+  status (vencido/pendente), filtro de período e relatórios, mantendo a
+  data original só como referência histórica. Útil quando dá baixa parcial
+  e renegocia o saldo restante.
+- **Trocar tipo cavalo/carreta em Configurações**: um botão "🔁 Marcar como
+  carreta/cavalo" em cada card, pra corrigir um cadastro errado sem
+  precisar ir em outra tela.
+- **Carreta vinculada ao cavalo**: em Configurações → Caminhões, cada cavalo
+  pode ter uma carreta padrão vinculada — ao lançar Seguro, a carreta já
+  vem preenchida sozinha ao escolher o cavalo.
+- **Setor nos gastos extras**: além da Categoria (que continua sempre
+  "Despesas Estrada" por padrão), um campo novo opcional "Setor" pra
+  marcar tipos específicos (ex: "Borracharia Miradouro", "Lavador") — o
+  relatório de Gastos Extras ganhou um filtro por Setor com o total de
+  cada um somando todos os caminhões juntos.
+- **Senha extra do sistema**: em Configurações → Geral, uma senha própria
+  do app (além do login do Google) que pede sempre que o app abre.
+- **Categorias de empresa editáveis**: renomear (em cascata), remover e
+  criar categorias novas em Boletos → gerenciar empresas; empresas sem
+  cadastro (só texto num boleto) aparecem numa seção própria pra
+  categorizar na hora.
+- **Menu "Relatórios" consolidado**: Relatório mensal, Recebimento e Gastos
+  extras viraram um único item na barra lateral com um menu que abre pra
+  baixo.
+- **Relatório novo: Gastos extras por caminhão**: pedágio pago na hora,
+  comida, conserto de estrada, taxa de viagem (rateio) — tudo que nunca
+  vira boleto, com período flexível e PDF.
+- **Leitor de código de barras**: escolha entre câmera OU leitor USB/sem
+  fio (que funciona como teclado) antes de abrir a câmera; bipe sonoro ao
+  ler com sucesso; confere o dígito verificador do banco antes de aceitar;
+  gera a linha digitável (não só o código de barras cru); opção de digitar
+  a linha manualmente quando a câmera não conseguir ler.
+- **Dashboard — clicar num caminhão abre o Relatório mensal detalhado**,
+  com período flexível (Hoje, Semana, Mês, Tudo, intervalo escolhido) em
+  vez de só mês fechado, e uma tabela de comissão gerada por motorista no
+  período.
+- **Alertas clicáveis**: 🛢️ troca de óleo e os itens dentro do 🔔 outros
+  alertas levam direto pro lançamento ou tela certa.
+
 - **Carreta vinculada ao cavalo**: em Configurações → Caminhões, cada cavalo
   pode ter uma carreta padrão vinculada. Ao lançar um Seguro, escolhendo o
   cavalo, a carreta já vem preenchida sozinha (dá pra trocar manualmente se
