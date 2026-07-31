@@ -6,7 +6,7 @@ arquivos**, empacotado (minificado) num único `.html`. Este README explica como
 se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
 com o Claude caso esta aqui não possa mais continuar.
 
-**Versão atual:** v2026.07.05-160
+**Versão atual:** v2026.07.30-183
 
 ## Arquivos deste pacote
 
@@ -15,6 +15,8 @@ com o Claude caso esta aqui não possa mais continuar.
 | `entry-sheets.jsx`         | Ponto de entrada. Só monta o app React na página.                   |
 | `app-sheets-source.jsx`    | **O código de verdade.** Todos os componentes, telas, cálculos e a integração com o Google Sheets estão neste único arquivo. |
 | `README.md`                | Este arquivo.                                                       |
+| `index.html`                | O arquivo final, já empacotado, pronto pra subir no GitHub Pages.  |
+| `codigo-fonte-controle-viagens-vX.tsx` | Cópia extra do `app-sheets-source` com o número da versão no nome — só enviada a cada marco de 10 alterações, como registro histórico de cada versão. |
 
 Não existe CSS separado — todo o estilo visual está embutido dentro do próprio
 `app-sheets-source.jsx`, usando o estilo nativo do React (`style={{...}}`).
@@ -60,7 +62,78 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   dia 15 (antecipado pra sexta-feira anterior se cair em fim de semana), e confirmação
   manual que gera o boleto e a despesa.
 
-### Outras funcionalidades transversais
+### Novidades recentes (v161 → v183)
+
+- **Boletos — lógica de quitação e baixas parciais revista**: um boleto só
+  conta como realmente quitado quando tem "Data de pagamento (quitação
+  total)" preenchida **e** não sobra saldo depois das baixas. Se tiver
+  "Novo vencimento" preenchido e ainda sobrar saldo, o boleto continua
+  contando como pendente/vencido (mesmo com a data de pagamento
+  preenchida) — evita contar como pago um valor que na verdade só teve
+  uma baixa parcial. Um aviso ⚠️ aparece nesses casos, tanto na lista
+  quanto no formulário de edição.
+- **Cada baixa entra na sua própria data**: nos cartões "Pago" (tela de
+  Boletos, relatório de Boletos e Dashboard Geral), cada baixa parcial
+  conta como paga no mês em que ela foi feita, e o valor de fechamento
+  conta no mês da quitação total — em vez de tudo cair de uma vez só no
+  mês do fechamento. Isso vale pros totais, pra lista, pro PDF e pro CSV,
+  todos com o mesmo critério.
+- **Baixas parciais**: agora têm campo de **conta bancária** própria (além
+  de data, valor e observação) — útil pra registrar de qual conta saiu
+  cada baixa quando o pagamento foi dividido entre bancos diferentes.
+- **Boleto com valor coberto só por baixas**: mostra "✓ Quitado com as
+  baixas" em vez de "restam R$ 0,00", que soava como se ainda faltasse
+  pagar.
+- **Botão "Limpar"** ao lado dos campos de data de pagamento e novo
+  vencimento (no iPad/Safari, às vezes não dá pra apagar a data só pelo
+  seletor nativo).
+- **Dashboard Geral redesenhado**: o "Detalhamento" virou um cartão único,
+  centralizado, com as linhas clicáveis — cada uma (Receita bruta,
+  Comissões, Gastos extras, Boletos pagos, Taxa de viagem) abre, ao
+  clicar, a lista detalhada correspondente logo abaixo (viagens,
+  comissões por viagem, gastos extras com placa do caminhão, boletos
+  considerados, ou taxas de viagem por caminhão). As listas de Receita
+  bruta e Comissões têm um seletor "Ordenar por: Data / Motorista"; a de
+  Boletos tem "Ordenar por: Data / Empresa". Itens com valor zerado não
+  aparecem na lista de Gastos extras (mas continuam entrando na soma).
+- **Gerenciar empresas**: agora tem um campo "+ Adicionar" pra cadastrar
+  empresa nova sem precisar lançar um boleto primeiro (útil, por exemplo,
+  antes de migrar um lançamento de uma empresa pra outra).
+- **Taxa de viagem (rateio)**: a descrição lançada em "Despesas do
+  veículo" ficou padronizada — sempre "Taxa de viagem (rateio: R$X
+  dividido entre os N caminhões)", em vez de listar nome por nome de cada
+  lançamento do cofrinho daquele mês.
+- **Editar despesa do veículo** (dentro do Relatório de líquido mensal):
+  o formulário de edição agora abre no lugar exato do item que você tocou
+  "editar", em vez de sempre pular pro topo do relatório. Lançar uma
+  despesa nova continua abrindo no topo.
+- **Novo relatório "Consumo (km/L)"** (menu Relatórios): calcula km
+  rodado ÷ litros abastecidos entre um posto e o seguinte, por caminhão,
+  sempre na ordem da **data do abastecimento** (nunca pela ordem de
+  lançamento no sistema — motorista às vezes manda o comprovante depois,
+  com data retroativa). Quando um abastecimento não tem km lançado, ele
+  não vira um "ponto" de cálculo, mas a litragem dele continua sendo
+  somada no próximo abastecimento que tiver km, pra não sumir litro
+  nenhum da conta (aparece uma notinha "+ litros de N sem km" nesses
+  casos). Mostra a média geral por caminhão, filtro por período e por
+  placa, e avisa em vermelho quando o km rodado ficar zerado ou negativo
+  (sinal de km lançado errado). O mesmo critério (ordenar por data, somar
+  litros de abastecimentos sem km) também foi aplicado no perfil de
+  consumo que já existia na tela de Abastecimentos.
+- **Celular — menu de navegação**: o menuzinho que abre ao tocar em
+  "Dashboard" (Viagens/Geral) e em "Relatórios" ficava cortado/escondido
+  no celular, porque a faixa de navegação horizontal tem rolagem lateral
+  que cortava qualquer coisa posicionada `absolute`. Corrigido pra esses
+  menus abrirem fixos, colados embaixo da faixa, ocupando a largura da
+  tela.
+- **Celular — tabelas desalinhadas**: o CSS que fazia as tabelas rolarem
+  de lado no celular estava, sem querer, transformando cada linha numa
+  "tabela" independente — por isso as colunas de uma linha não ficavam
+  alinhadas com as da linha de baixo. Corrigido: agora é o quadrado que
+  envolve a tabela que rola de lado, e a tabela em si mantém a estrutura
+  normal (colunas alinhadas em todas as linhas).
+
+
 - **Dashboard Geral (novo!)**: Receita bruta − comissões − gastos extras
   (Despesas Estrada) − boletos pagos (das categorias escolhidas) − taxa de
   viagem = Rendimento líquido geral. Cartões visuais no topo (igual o
