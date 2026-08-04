@@ -6,7 +6,7 @@ arquivos**, empacotado (minificado) num único `.html`. Este README explica como
 se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
 com o Claude caso esta aqui não possa mais continuar.
 
-**Versão atual:** v2026.07.30-183
+**Versão atual:** v2026.07.30-219
 
 ## Arquivos deste pacote
 
@@ -62,7 +62,49 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   dia 15 (antecipado pra sexta-feira anterior se cair em fim de semana), e confirmação
   manual que gera o boleto e a despesa.
 
-### Novidades recentes (v161 → v183)
+### Novidades recentes (v183 → v219)
+
+- **Serviços do caminhão, unificados**: além da Troca de Óleo, agora dá pra
+  marcar um gasto extra de viagem como **"serviço importante"** — ele passa a
+  aparecer junto com as trocas de óleo em "Outros Serviços Importantes". Tanto
+  ali quanto direto no lançamento de "Outros Serviços" e na Troca de Óleo, dá
+  pra: registrar **vários itens (descrição + valor)** no mesmo lançamento —
+  serviços e peças separados —, marcar a **empresa** que fez o serviço (ex:
+  Força Diesel) e, se quiser, **gerar um boleto pendente** direto dali
+  (vencimento digitado na hora, sem puxar data automática).
+- **Novo campo "Onde foi feito"** em Gastos Extras: texto livre, sempre
+  visível, só pra anotar em qual estabelecimento algo foi comprado/pago à
+  vista (ex: "Movesa Motores") — não entra em nenhum relatório financeiro
+  nem gera boleto, é só uma notinha de referência pra achar nota fiscal depois.
+- **Novo relatório "Serviços por empresa"** (menu Relatórios): mostra tudo
+  que já foi feito numa empresa específica (ou todas) — Data, Placa, KM,
+  Serviço, Valor — puxando de Outros Serviços Importantes e das trocas de
+  óleo que tiverem empresa marcada. Total em destaque no rodapé.
+- **Novo relatório "Consumo (km/L)"** (menu Relatórios): calcula km rodado
+  ÷ litros abastecidos entre um posto e o seguinte, por caminhão, sempre na
+  ordem da **data do abastecimento** (não da ordem de lançamento). Quando um
+  abastecimento não tem km lançado, a litragem dele soma no próximo que
+  tiver km, em vez de sumir da conta. Mostra a média por caminhão, e cada
+  posto da lista é clicável — leva direto pra viagem daquele abastecimento,
+  pra conferir/corrigir o km.
+- **Troca de óleo ganhou**: campo Valor (pré-fixado em R$80, editável),
+  campo Empresa (pré-selecionado "Força Diesel"), gerar boleto, e uma lista
+  de **Peças usadas** (descrição + valor, quantas quiser).
+- **PDF de relatórios corrigido**: os relatórios mais novos (Gastos extras,
+  Consumo, Serviços por empresa) não tinham a versão específica pra
+  impressão — o PDF saía em branco. Corrigido, e também corrigido pra abrir
+  um relatório sempre fechar os outros que estivessem abertos (antes, dois
+  relatórios abertos ao mesmo tempo saíam misturados no mesmo PDF).
+- **Boletos**: o resumo de desconto/juros agora também mostra as baixas já
+  pagas, batendo com o "Saldo restante" (antes podiam aparecer dois valores
+  diferentes pro mesmo boleto).
+- **Lançamento de viagem**: campos de Adiantamento e Saldo a receber em
+  negrito, ficando verdes quando a respectiva data de recebimento é
+  preenchida — mais fácil de bater o olho e ver o que já foi recebido.
+- **Celular**: menus de navegação e tabelas que ficavam cortados/desalinhados
+  numa tela estreita foram corrigidos.
+
+
 
 - **Boletos — lógica de quitação e baixas parciais revista**: um boleto só
   conta como realmente quitado quando tem "Data de pagamento (quitação
