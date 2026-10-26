@@ -6,7 +6,9 @@ arquivos**, empacotado (minificado) num único `.html`. Este README explica como
 se encaixa, o que o app já faz hoje, e como retomar o desenvolvimento numa conversa nova
 com o Claude caso esta aqui não possa mais continuar.
 
-**Versão atual:** v2026.09.08-415
+**Versão atual:** v2026.09.08-457
+
+> **Atenção:** o código-fonte (`app-sheets-source`) deste pacote ainda é o da v431. As mudanças das versões 432 a 457, listadas na seção "Mudanças desde a v431" mais abaixo, estão só no `index.html` (a v457 foi feita direto nele, depois que a cópia do código-fonte se perdeu). O `index.html` da v457 é a referência atual do app.
 
 ## Arquivos deste pacote
 
@@ -643,6 +645,21 @@ padrão dos outros) e seguir adicionando ou ajustando funcionalidades.
   imprimir essas cores (por padrão ele esconde cor de fundo na impressão).
 - Ajustes responsivos gerais pra uso em celular (tabelas com rolagem
   horizontal, campos empilhados, modais que não passam da largura da tela).
+
+## Mudanças desde a v431 (só no index.html v457)
+
+- **Preços combinados por posto (Configurações):** campos só gravam ao clicar em **Salvar**, com a data "preço vale desde" (a data real da mudança); aviso de alteração não salva; preços com 2 casas (6,3 vira 6,30); histórico de preços por posto com "restaurar"; postos removidos vão pra lista "Postos removidos" e dá pra restaurar com o histórico; "Unificar postos com nome parecido" também junta os preços. **v457:** botão **Imprimir relatório** (postos em ordem alfabética, diesel/arla com "vale desde" e histórico de alterações).
+- **Boletos:** várias notas fiscais (cada uma com sua data) no mesmo lançamento (coluna `notasExtrasJSON`, ranges `A..U`); relatório de boletos com totais que seguem os filtros; contas de consumo/impostos (convênio) geram linha digitável de 48 dígitos pro banco aceitar; modal de código de barras não corta no iPad.
+- **Viagens:** campo Seguro (coluna `seguro`, ranges `A..AC`) e novo arranjo de campos do Financeiro; excluir viagem; viagens da mesma data ordenadas por KM (maior KM primeiro na lista; relatório mensal segue KM crescente).
+- **Troca de Óleo:** serviços clicáveis mostrando o valor de cada item.
+- **Compra e Venda de Carros** (antes "Venda de Carros", continua isolado dos relatórios da transportadora):
+  - submenu no menu lateral e abas no topo: Carros, Empréstimos, Troca de Cheque, Comparativo;
+  - cada carro tem uma ou mais **origens do dinheiro** da compra (coluna `origemDinheiro` em `CarrosVenda`, range `A..N`, guardada como JSON `[{origem, valor, emprestimoId}]`; texto antigo continua valendo como uma origem só) e cada despesa tem a sua origem;
+  - **Controle de Custo Financeiro** (guardado na aba `Config`, chaves `custoEmprestimos` e `custoTrocasCheque`; não entra em dashboard/relatórios): lançamento de empréstimos (banco, valor que entrou, total a pagar, nº de parcelas só informativo → juros) e de trocas de cheque (valor do cheque, valor recebido → perda);
+  - ao escolher um empréstimo na origem de um carro, o juros proporcional entra sozinho como despesa "Juros empréstimo — Banco" (campo `auto: true`, recalculada a cada mudança);
+  - **Comparativo:** lucro das vendas (antes dos juros) × juros de empréstimos × perda em troca de cheque, resultado depois dos juros e tabela por origem do dinheiro (carros clicáveis, compras, despesas, total gasto, lucro; origens com maiúscula/minúscula/acento diferentes somam juntas);
+  - lista de carros ordenada pela data da compra, do mais antigo pro mais novo; botão que marca tudo sem origem como "Caixa da empresa".
+- **iPad:** ao voltar de outro app, o cursor volta pro campo em que a pessoa estava digitando.
 
 ## Dependências / bibliotecas usadas
 
